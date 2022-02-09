@@ -1,3 +1,7 @@
+const functions = require('firebase-functions');  
+const admin = require('firebase-admin');  
+admin.initializeApp();  
+
 exports.sendNewTripNotification = functions.database.ref('/users/userid/').onUpdate(event=>{
     const uuid = event.params.uid;
 
