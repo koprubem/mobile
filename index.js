@@ -1,9 +1,19 @@
-exports.helloGCS = (file, context) => {
-  console.log(`  Event: ${context.eventId}`);
-  console.log(`  Event Type: ${context.eventType}`);
-  console.log(`  Bucket: ${file.bucket}`);
-  console.log(`  File: ${file.name}`);
-  console.log(`  Metageneration: ${file.metageneration}`);
-  console.log(`  Created: ${file.timeCreated}`);
-  console.log(`  Updated: ${file.updated}`);
-};
+exports.sendNewTripNotification = functions.database.ref('/users/userid/').onUpdate(event=>{
+    const uuid = event.params.uid;
+
+    console.log('User to send notification', uuid);
+
+    var ref = admin.database().ref('users/${uuid}/token');
+    return ref.once("value", function(snapshot){
+         const payload = {
+              notification: {
+                  title: 'You have been invited to a trip.',
+                  body: 'Tap here to check it out!'
+              }
+         };
+
+         admin.messaging().sendToDevice(snapshot.val(), payload)
+
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
