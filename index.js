@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+
 
 exports.sendNewTripNotification = functions.database.ref('/users/userid/').onUpdate(event=>{
     const uuid = event.params.uid;
