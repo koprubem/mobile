@@ -1,4 +1,4 @@
-
+// eslint-disable-next-line no-unused-vars
 
 exports.sendNewTripNotification = functions.database.ref('/users/userid/').onUpdate(event=>{
     const uuid = event.params.uid;
