@@ -1,11 +1,11 @@
 import * as admin from 'firebase-admin';
 
-exports.sendNewTripNotification = functions.database.ref('/{users}/userid/').onUpdate(event=>{
+exports.sendNewTripNotification = functions.database.ref('/users/userid/').onUpdate(event=>{
     const uuid = event.params.uid;
 
     console.log('User to send notification', uuid);
 
-    var ref = admin.database().ref(`users/${uuid}/token`);
+    var ref = admin.database().ref('users/${uuid}/token');
     return ref.once("value", function(snapshot){
          const payload = {
               notification: {
